@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Master</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .question {
+            margin-bottom: 15px;
+        }
+
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .option {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Quiz Master</h1>
+
+    <div class="quiz-container" id="quiz-container">
+        <div class="question" id="question"></div>
+        <ul class="options" id="options"></ul>
+        <button onclick="nextQuestion()">Next</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                category: "Science",
+                question: "What is the capital of France?",
+                options: ["Paris", "Berlin", "London", "Madrid"],
+                correctAnswer: "Paris"
+            },
+            {
+                category: "History",
+                question: "Who was the first President of the United States?",
+                options: ["Thomas Jefferson", "John Adams", "George Washington", "Abraham Lincoln"],
+                correctAnswer: "George Washington"
+            },
+            {
+                category: "Geography",
+                question: "Which river is the longest in the world?",
+                options: ["Nile", "Amazon", "Yangtze", "Mississippi"],
+                correctAnswer: "Amazon"
+            },
+            {
+                category: "Math",
+                question: "What is the square of 9?",
+                options: ["64", "81", "100", "121"],
+                correctAnswer: "81"
+            },
+            {
+                category: "General Knowledge",
+                question: "Who wrote 'Romeo and Juliet'?",
+                options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
+                correctAnswer: "William Shakespeare"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        const quizContainer = document.getElementById("quiz-container");
+        const questionElement = document.getElementById("question");
+        const optionsElement = document.getElementById("options");
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            questionElement.textContent = `${currentQuestion.category}: ${currentQuestion.question}`;
+
+            optionsElement.innerHTML = "";
+            currentQuestion.options.forEach((option, index) => {
+                const li = document.createElement("li");
+                li.className = "option";
+                li.textContent = option;
+                li.onclick = () => checkAnswer(index);
+                optionsElement.appendChild(li);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            const currentQuestion = questions[currentQuestionIndex];
+            if (currentQuestion.correctAnswer === currentQuestion.options[selectedIndex]) {
+                alert("Correct!");
+            } else {
+                alert("Incorrect. The correct answer is: " + currentQuestion.correctAnswer);
+            }
+
+            // Move to the next question
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                alert("Quiz completed!");
+                quizContainer.style.display = "none";
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                alert("Quiz completed!");
+                quizContainer.style.display = "none";
+            }
+        }
+
+        // Initial load
+        loadQuestion();
+    </script>
+
+</body>
+
+</html>
